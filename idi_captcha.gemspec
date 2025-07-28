@@ -10,8 +10,6 @@ Gem::Specification.new do |spec|
   spec.description   = "A simple image-based CAPTCHA engine for Rails 6+, works offline and supports Devise integration"
   spec.homepage      = "https://rubygems.org/gems/idi_captcha"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
-  # Add dependency
-  spec.add_dependency 'mini_magick', '>= 4.9', '< 5.0'
   
   spec.metadata['base_path'] = File.expand_path('..', __FILE__)
  

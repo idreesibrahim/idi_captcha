@@ -81,19 +81,12 @@ idi_captcha/
 │   │   ├── engine.rb
 │   │   └── helpers/
 │   │       └── view_helper.rb
-├── app/
-│   └── controllers/
-│       └── idi_captcha/
-│           └── captcha_controller.rb
-├── config/
-│   └── routes.rb
 ```
 
 ## ✅ Requirements
 
 - Ruby >= 2.3
 - Rails >= 6.0
-- mini_magick >= 4.9, < 5.0
 
 ## 🧪 Testing Locally
 

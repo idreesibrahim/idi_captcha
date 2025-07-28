@@ -1,10 +1,13 @@
 module IdiCaptcha
   module Helpers
-    def captcha_tag
-      image_tag('/idi_captcha/captcha?' + Time.now.to_i.to_s, alt: 'CAPTCHA')
+    module ViewHelper
+      def captcha_tag
+        if session[:captcha_question].present?
+          "<label>What is #{session[:captcha_question]}?</label>".html_safe
+        else
+          "<label>CAPTCHA not set</label>".html_safe
+        end
+      end
     end
   end
 end
-
-ActionView::Base.include IdiCaptcha::Helpers
-

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    idi_captcha (0.1.0)
+    idi_captcha (0.4.0)
       mini_magick (>= 4.9, < 5.0)
 
 GEM
