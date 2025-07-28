@@ -37,27 +37,39 @@ mount IdiCaptcha::Engine => "/idi_captcha"
 For example, in `devise/sessions/new.html.erb`:
 
 ```erb
-<%= captcha_tag %>
-
-<div class="field">
-  <%= label_tag :captcha, "Enter CAPTCHA" %>
-  <%= text_field_tag :captcha, nil, required: true, autocomplete: "off" %>
+ <div class="form-group">
+  <label for="captcha" class="font-weight-bold text-primary">🧠 CAPTCHA Verification</label>
+  <div class="input-group mt-2">
+      <div class="input-group-prepend">
+      <span class="input-group-text bg-light font-weight-bold">What is <%= session[:captcha_question] || "?" %> ?</span>
+      </div>
+      <%= text_field_tag :captcha, nil, class: "form-control", placeholder: "Enter your answer", required: true, autocomplete: "off" %>
+  </div>
 </div>
+
 ```
 
 ### 2. Validate CAPTCHA in your controller
 
 Override Devise's sessions controller:
-
 ```ruby
 class Users::SessionsController < Devise::SessionsController
+  def new
+    IdiCaptcha::Captcha.generate(session)
+    super
+  end
   def create
     unless IdiCaptcha::Captcha.valid?(session, params[:captcha])
-      flash[:alert] = "Invalid CAPTCHA"
-      redirect_to new_user_session_path and return
+      flash.now[:alert] = "Invalid CAPTCHA"
+      self.resource = resource_class.new(sign_in_params)
+      IdiCaptcha::Captcha.generate(session) ## Regenerate captcha
+      respond_with_navigational(resource) { render :new }
+      return
     end
 
-    super
+    super do
+      session[:modal_shown] = true
+    end
   end
 end
 ```
