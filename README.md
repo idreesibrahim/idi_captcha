@@ -7,19 +7,13 @@ Offline CAPTCHA for Rails 6+ applications that works without any external servic
 Add this line to your application's **Gemfile**:
 
 ```ruby
-gem 'idi_captcha', path: 'relative/path/to/idi_captcha'
+gem 'idi_captcha'
 ```
 
 Then execute:
 
 ```bash
 bundle install
-```
-
-Mount the engine in your `config/routes.rb`:
-
-```ruby
-mount IdiCaptcha::Engine => "/idi_captcha"
 ```
 
 ## 🚀 Features
@@ -107,8 +101,6 @@ gem build idi_captcha.gemspec
 bundle install
 rails server
 ```
-
-Access `http://localhost:3000/idi_captcha/captcha` to verify the CAPTCHA image loads.
 
 ## 👤 Author
 
