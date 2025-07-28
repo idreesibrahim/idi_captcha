@@ -31,14 +31,16 @@ bundle install
 For example, in `devise/sessions/new.html.erb`:
 
 ```erb
- <div class="form-group">
-  <label for="captcha" class="font-weight-bold text-primary">🧠 CAPTCHA Verification</label>
-  <div class="input-group mt-2">
-      <div class="input-group-prepend">
-      <span class="input-group-text bg-light font-weight-bold">What is <%= session[:captcha_question] || "?" %> ?</span>
-      </div>
-      <%= text_field_tag :captcha, nil, class: "form-control", placeholder: "Enter your answer", required: true, autocomplete: "off" %>
-  </div>
+<div class="form-group">
+<label for="captcha" class="font-weight-bold text-primary">🧠 CAPTCHA Verification</label>
+<div class="input-group mt-2">
+    <div class="input-group-prepend">
+    <span class="input-group-text bg-light font-weight-bold">
+        What is <%= session[:captcha_question] %> ?
+    </span>
+    </div>
+    <%= text_field_tag :captcha, nil, class: "form-control", placeholder: "Enter your answer", required: true, autocomplete: "off" %>
+</div>
 </div>
 
 ```
@@ -67,14 +69,25 @@ class Users::SessionsController < Devise::SessionsController
   end
 end
 ```
+### 3. Captcha Helper
 
-Update routes:
+Add helper, in `app/helpers/captcha_helper.rb`
 
 ```ruby
-devise_for :users, controllers: {
-  sessions: 'users/sessions'
-}
+module CaptchaHelper
+  def ensure_captcha_initialized
+    IdiCaptcha::Captcha.generate(session) unless session[:captcha_question].present?
+  end
+end
 ```
+after initlize in views `sessions/new.html.erb`
+
+```erb
+<% ensure_captcha_initialized %>
+```
+
+
+Update routes:
 
 ## 📂 Gem Structure
 
